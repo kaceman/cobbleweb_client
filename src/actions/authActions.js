@@ -65,8 +65,8 @@ export const login = (data) => (dispatch) => {
             dispatch(setLoginSuccess());
         })
         .catch((error) => {
-            if (error.response.data.errors && error.response.data.errors.length > 0) {
-                dispatch(setError(error.response.data.errors));
+            if (error.response.data.message) {
+                dispatch(setError([error.response.data.message]));
             }
         });
 
