@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom';
 import { setMessages } from '../actions/authActions';
 import { useDispatch } from 'react-redux';
+import API_HOST from "../apiConfig";
 
 const Profile = () => {
     const [userInfo, setUserInfo] = useState(null);
@@ -21,7 +22,7 @@ const Profile = () => {
                 // Check if the token is present
                 if (authToken) {
                     // Make a request to the /api/users/me endpoint with the token in the headers
-                    const response = await axios.get('http://localhost:8000/api/users/me', {
+                    const response = await axios.get(API_HOST + '/api/users/me', {
                         headers: {
                             Authorization: `Bearer ${authToken}`,
                         },

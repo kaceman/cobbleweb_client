@@ -1,4 +1,5 @@
 import axios from 'axios';
+import API_HOST from "../apiConfig";
 
 export const register = (data) => (dispatch) => {
     const body = {};
@@ -41,7 +42,7 @@ export const register = (data) => (dispatch) => {
     // Wait for all promises to resolve
     Promise.all([avatarPromise, ...photosPromises]).then(() => {
         // Perform the POST request using Axios
-        axios.post('http://localhost:8000/api/users/register', body)
+        axios.post(API_HOST + '/api/users/register', body)
             .then((response) => {
                 dispatch(setRegisterSuccess());
                 dispatch(setMessages([response.data.message]));
@@ -57,7 +58,7 @@ export const register = (data) => (dispatch) => {
 
 export const login = (data) => (dispatch) => {
     // Perform the POST request using Axios
-    axios.post('http://localhost:8000/api/users/login', data)
+    axios.post(API_HOST + '/api/users/login', data)
         .then((response) => {
             const token = response.data.token;
             // Store the token in the session storage
