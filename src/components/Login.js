@@ -7,6 +7,7 @@ import {Link, useNavigate} from 'react-router-dom';
 const Login = () => {
     const dispatch = useDispatch();
     const errors = useSelector((state) => state.auth.errors);
+    const messages = useSelector((state) => state.auth.messages);
     const loginSuccess = useSelector((state) => state.auth.loginSuccess);
     const navigate = useNavigate();
 
@@ -35,6 +36,13 @@ const Login = () => {
     return (
         <div className="max-w-md mx-auto mt-8 p-8 bg-white shadow-md rounded-md">
             <h2 className="text-4xl font-bold mb-4">Login</h2>
+            {messages.length > 0 && (
+                <div className="text-green-500 mt-4">
+                    {messages.map((message, index) => (
+                        <p key={index}>{message}</p>
+                    ))}
+                </div>
+            )}
             <form onSubmit={handleSubmit(onSubmit)} className="mb-3">
                 {renderInput('Email', 'username')}
                 {renderInput('Password', 'password', 'password')}

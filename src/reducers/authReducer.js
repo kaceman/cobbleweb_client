@@ -1,6 +1,7 @@
 const initialState = {
     // Other auth-related properties...
     errors: [],
+    messages: [],
     registerSuccess: null,
     loginSuccess: null,
 };
@@ -24,6 +25,12 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 errors: action.payload,
+            };
+
+        case 'MESSAGE':
+            return {
+                ...state,
+                messages: action.payload,
             };
 
         default:

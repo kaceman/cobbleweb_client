@@ -6,6 +6,7 @@ import store from './store';
 import './index.css';
 import Register from './components/Register';
 import Login from './components/Login';
+import Profile from "./components/Profile";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
             <Routes>
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/profile" element={<Profile />} />
             </Routes>
         </Router>
     </Provider>

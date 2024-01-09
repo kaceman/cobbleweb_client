@@ -18,10 +18,13 @@ export const register = (data) => (dispatch) => {
         return new Promise((resolve) => {
             const reader = new FileReader();
             reader.onloadend = () => {
+                const commaIndex = reader.result.indexOf(',');
+                // Remove everything before the first comma (data:image/png;base64,)
+                const base64Data = reader.result.substring(commaIndex + 1);
                 if (single) {
-                    body[fieldName] = reader.result;
+                    body[fieldName] = base64Data;
                 } else {
-                    body[fieldName].push(reader.result);
+                    body[fieldName].push(base64Data);
                 }
                 resolve();
             };
@@ -41,6 +44,7 @@ export const register = (data) => (dispatch) => {
         axios.post('http://localhost:8000/api/users/register', body)
             .then((response) => {
                 dispatch(setRegisterSuccess());
+                dispatch(setMessages([response.data.message]));
             })
             .catch((error) => {
                 if (error.response.data.errors && error.response.data.errors.length > 0) {
@@ -55,6 +59,9 @@ export const login = (data) => (dispatch) => {
     // Perform the POST request using Axios
     axios.post('http://localhost:8000/api/users/login', data)
         .then((response) => {
+            const token = response.data.token;
+            // Store the token in the session storage
+            sessionStorage.setItem('authToken', token);
             dispatch(setLoginSuccess());
         })
         .catch((error) => {
@@ -68,6 +75,11 @@ export const login = (data) => (dispatch) => {
 export const setError = (errors) => ({
     type: 'FAILURE',
     payload: errors,
+});
+
+export const setMessages = (messages) => ({
+    type: 'MESSAGE',
+    payload: messages,
 });
 
 export const setLoginSuccess = (success = true) => ({
