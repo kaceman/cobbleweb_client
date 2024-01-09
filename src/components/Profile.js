@@ -46,6 +46,15 @@ const Profile = () => {
         fetchUserInfo();
     }, []); // The empty dependency array ensures that the effect runs only once after the initial render
 
+    // Logout function
+    const handleLogout = () => {
+        // Clear the authToken from sessionStorage
+        sessionStorage.removeItem('authToken');
+
+        // Redirect to the login page
+        navigate('/login');
+    };
+
     // Slick carousel settings
     const carouselSettings = {
         dots: true,
@@ -58,13 +67,17 @@ const Profile = () => {
     return (
         <div className="max-w-md mx-auto mt-8 p-8 bg-white shadow-md rounded-md">
             <h2 className="text-4xl font-bold mb-4">Profile</h2>
+            {/* Logout Button */}
+            <button className="bg-red-500 text-white px-4 py-2 mt-4 float-right" onClick={handleLogout}>
+                Logout
+            </button>
             {userInfo && (
                 <div>
-                    <div className="mb-4 text-center">
+                    <div className="mb-4">
                         <img
                             src={userInfo.avatar}
                             alt="Avatar"
-                            className="w-20 h-20 object-cover rounded-full mx-auto"
+                            className="w-20 h-20 object-cover rounded-full"
                         />
                     </div>
                     <p>Email: {userInfo.email}</p>
