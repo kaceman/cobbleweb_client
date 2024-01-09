@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { register } from '../actions/authActions';
+import {register, setError, setRegisterSuccess} from '../actions/authActions';
+import {Link, useNavigate} from 'react-router-dom';
 
 const Register = () => {
     const dispatch = useDispatch();
     const errors = useSelector((state) => state.auth.errors);
+    const registerSuccess = useSelector((state) => state.auth.registerSuccess);
+    const navigate = useNavigate();
 
     const { register: registerForm, handleSubmit } = useForm();
 
@@ -20,9 +23,18 @@ const Register = () => {
         </div>
     );
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        dispatch(setError([]));
         dispatch(register(data));
     };
+
+    useEffect(() => {
+        if (registerSuccess) {
+            navigate('/login');
+            dispatch(setError([]));
+            dispatch(setRegisterSuccess(false));
+        }
+    }, [registerSuccess, navigate, dispatch]);
 
     return (
         <div className="max-w-md mx-auto mt-8 p-8 bg-white shadow-md rounded-md">
@@ -43,7 +55,7 @@ const Register = () => {
                     </div>
                 )}
             </form>
-            <a href="/login" className="text-blue-500 underline">Already have an account?</a>
+            <Link to="/login" className="text-blue-500 underline">Already have an account?</Link>
         </div>
     );
 };

@@ -40,10 +40,9 @@ export const register = (data) => (dispatch) => {
         // Perform the POST request using Axios
         axios.post('http://localhost:8000/api/users/register', body)
             .then((response) => {
-                console.log(response.data);
+                dispatch(setRegisterSuccess());
             })
             .catch((error) => {
-                console.log(error.response.data)
                 if (error.response.data.errors && error.response.data.errors.length > 0) {
                     dispatch(setError(error.response.data.errors));
                 }
@@ -52,7 +51,31 @@ export const register = (data) => (dispatch) => {
 
 };
 
+export const login = (data) => (dispatch) => {
+    // Perform the POST request using Axios
+    axios.post('http://localhost:8000/api/users/login', data)
+        .then((response) => {
+            dispatch(setLoginSuccess());
+        })
+        .catch((error) => {
+            if (error.response.data.errors && error.response.data.errors.length > 0) {
+                dispatch(setError(error.response.data.errors));
+            }
+        });
+
+};
+
 export const setError = (errors) => ({
-    type: 'REGISTER_FAILURE',
+    type: 'FAILURE',
     payload: errors,
+});
+
+export const setLoginSuccess = (success = true) => ({
+    type: 'LOGIN_SUCCESS',
+    payload: success,
+});
+
+export const setRegisterSuccess = (success = true) => ({
+    type: 'REGISTER_SUCCESS',
+    payload: success,
 });
