@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom';
-import { setMessages } from '../actions/authActions';
+import {setError, setMessages} from '../actions/authActions';
 import { useDispatch } from 'react-redux';
 import API_HOST from "../apiConfig";
 
@@ -51,7 +51,8 @@ const Profile = () => {
     const handleLogout = () => {
         // Clear the authToken from sessionStorage
         sessionStorage.removeItem('authToken');
-
+        dispatch(setMessages([]));
+        dispatch(setError([]));
         // Redirect to the login page
         navigate('/login');
     };
